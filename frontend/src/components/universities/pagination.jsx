@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './pagination.css';
+import React, { useState } from "react";
+import "./pagination.css";
 
 const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   const [activePage, setActivePage] = useState(1); // State to track active page
@@ -10,19 +10,19 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     pageNumbers.push(i);
   }
 
-  const handleClick = (number) => {
+  const handleClick = number => {
     paginate(number); // Call paginate function to update the page content
     setActivePage(number); // Update active page
   };
 
   return (
     <div className="center">
-      <div className='pagination'>
+      <div className="pagination">
         {pageNumbers.map(number => (
           <button
             key={number}
             onClick={() => handleClick(number)}
-            className={`page-link ${activePage === number ? 'active' : ''}`}
+            className={`page-link ${activePage === number ? "active" : ""}`}
           >
             {number}
           </button>

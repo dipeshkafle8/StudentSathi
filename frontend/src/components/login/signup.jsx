@@ -1,77 +1,76 @@
-import { useState } from 'react';
-import './signup.css';
-import handleEventSubmit from './signup.js';
-import axios from 'axios';
-import {useNavigate } from 'react-router-dom';
+import "./signup.css";
+import { useNavigate } from "react-router-dom";
 function Signup() {
-  const Navigate = useNavigate()
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const Navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handelSignUp = async () => {
-    const { username, email, password } = form;
-    if (!username || !email || !password) {
-      alert("you must filled all details");
-      return;
-    }
+  //for sending request to backend
+  async function sendDataToBackend(obj) {
     try {
-      const resp = await axios.post("http://localhost:5000/signup", form);
-      console.log(resp.data)
-      if (resp.data) {
-        alert(`user created successfully`);
+      let res = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(obj)
+      });
+      res = await res.json();
+      if (res.status) {
         Navigate("/login");
+      } else {
+        alert("Unable to create");
       }
-    } catch (error) {
-      alert("server error");
-      console.log(error);
+    } catch (err) {
+      alert("Unable to create User");
     }
-  };
+  }
 
-
-  const handleSubmit = (e) => {
+  //for handling form data after submit
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Here you would typically send the form data to your server
-  };
-
+    let formData = new FormData(e.target);
+    let obj = {
+      username: formData.get("username") ?? "",
+      email: formData.get("email") ?? "",
+      password: formData.get("password") ?? ""
+    };
+    sendDataToBackend(obj);
+  }
 
   return (
     <>
-      <div className='home-page'>
+      <div className="home-page">
         <form onSubmit={handleSubmit} className="container2">
           <div className="signup-form">
             <h2>Sign Up</h2>
             <div className="input-group">
-              <input type="text" name="username" value={form.username}
-                onChange={handleChange} placeholder="Username" required />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+              />
             </div>
             <div className="input-group">
-              <input type="email" name="email"
-                value={form.email}
-                placeholder='Enter your email'
-                onChange={handleChange} required />
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
             </div>
             <div className="input-group">
-              <input type="password" name="password"
-                value={form.password}
-                placeholder='Enter your password'
-                onChange={handleChange} required />
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
             </div>
-            <button type="submit" onClick={handelSignUp} id='signupbutton' >Sign Up</button>
+            <button type="submit" id="signupbutton">
+              Sign Up
+            </button>
           </div>
         </form>
-        <footer>
-          <p>&copy; 2024 Student Sathi. All rights reserved. | Contact us: contact@student-sathi.com</p>
-        </footer>
       </div>
     </>
   );

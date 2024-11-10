@@ -1,5 +1,4 @@
-import React, { useRef, useEffect } from "react";
-import './courses.css';
+import { Link } from "react-router-dom";
 const bachelorFields = [
   "Engineering and Technology",
   "Medicine and Healthcare",
@@ -60,52 +59,41 @@ const fieldDescriptions = [
   "Study of health-related disciplines supporting medical care, diagnostics, and therapy."
 ];
 
-
 const Courses = () => {
-  
-  const containerRef = useRef(null); 
-  useEffect(() => {
-    let divcourse = containerRef.current;
-    
-    let i = 0;
-    bachelorFields.forEach((value) => {
-      
-      const divc = document.createElement("div");
-      
-      const h2 = document.createElement("h2");     
-      const divb = document.createElement("div");
-      divb.setAttribute("class", "diva");
-      h2.setAttribute("class", "h2course");
-      divc.setAttribute("class", "box");
-      const p = document.createElement("p");
-      p.setAttribute("class","pcourse");    
-      const link = document.createElement("a");
-      link.setAttribute("class", "acourses");
-      link.innerText = "Explore";
-      link.href = `/Coursedetails/${i}`;
-         
-      p.innerText = fieldDescriptions[i];
-      h2.innerText = value;
-      divc.append(h2);
-      divc.append(p);
-      divb.append(link);    
-      divc.append(divb);
-      divc.setAttribute("key", i);
-      
-      i++;
-      divcourse.append(divc);     
-
-    });
-    
-  },[]); // Empty dependency array to ensure useEffect runs only once
-
   return (
-    <div id="main" key="main1">
-      <h1 id="heading" key="heading1">Courses</h1>
+    <div id="main" key="main1" className="mt-32">
+      <h1
+        id="heading"
+        key="heading1"
+        className="text-center text-3xl font-bold"
+      >
+        Courses
+      </h1>
       <br />
-      <div id="container" key="container1" ref={containerRef}></div>
+      <div
+        id="container"
+        key="container1"
+        className="flex flex-wrap flex-1 justify-evenly"
+      >
+        {bachelorFields.map((value, index) => (
+          <div
+            className=" bg-[rgb(69,69,71)] text-white box  m-2 w-96 flex flex-col justify-center items-center gap-y-4 p-2 shadow-lg rounded-xl"
+            key={index}
+          >
+            <h2 className="text-2xl font-semibold text-center">{value}</h2>
+            <p className="pcourse text-center">{fieldDescriptions[index]}</p>
+
+            <Link
+              className="px-6 p-2 bg-white text-black rounded-sm hover:bg-[#ffffffbd] hover:text-white"
+              to={`/Coursedetails/${index}`}
+            >
+              Explore
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default React.memo(Courses);
+export default Courses;
