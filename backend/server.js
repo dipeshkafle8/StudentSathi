@@ -1,22 +1,12 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const { collegeRoute } = require("./routes/collegeRoute");
 const { userRoute } = require("./routes/userRoute");
 const cors = require("cors");
 
 require("dotenv").config();
+require("./model/dbConnection");
 
-let url = process.env.URL;
 let port = process.env.PORT || 3000;
-
-mongoose
-  .connect(url)
-  .then(() => {
-    console.log("Mongodb Connect Successfully");
-  })
-  .catch((err) => {
-    console.log("Error in connecting DB");
-  });
 
 const app = express();
 app.use(cors());
