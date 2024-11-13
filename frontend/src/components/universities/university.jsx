@@ -1,9 +1,10 @@
+import "./university.css";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Pagination from "./pagination";
 import Posts from "./Posts";
-import "./university.css";
+
 const bachelorFields = [
   "Engineering and Technology",
   "Medicine and Healthcare",
@@ -66,9 +67,9 @@ const Location = [
 
 function HandleUniversity() {
   //using params
-  let { university } = useParams();
+  let { Course } = useParams();
 
-  let course = university || "Overall";
+  let course = Course || "Overall";
 
   if (course !== "Overall") {
     course = course.split(" ")[0];
@@ -77,7 +78,7 @@ function HandleUniversity() {
   //hooks for handling the filter
   const [selectedCourse, setCourse] = useState(course);
   const [selectedLocation, setLocation] = useState("None");
-  const showColleges = useRef(null);
+
   //paging
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -94,7 +95,7 @@ function HandleUniversity() {
     setLocation(event.target.value);
   };
 
-  async function getData(showUniversity) {
+  async function getData() {
     setLoading(true);
     let response = await axios.post(
       `http://localhost:5000/getdata/getCollege/${selectedCourse}`,
@@ -112,8 +113,7 @@ function HandleUniversity() {
   }
   //to handle everytime when the filter is changing
   useEffect(() => {
-    let showUniversity = showColleges.current;
-    getData(showUniversity);
+    getData();
   }, [selectedCourse, selectedLocation]);
 
   const indexOfLastPost = currentPage * postsPerPage;

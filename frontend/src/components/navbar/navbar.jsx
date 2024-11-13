@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import logo from "./Logo.png";
 import { useLocation, Link } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import Ham from "./Ham";
 function Nav() {
-  const [showLog, setSowLog] = useState(false);
-  useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (username != null) setSowLog(true);
-    console.log(showLog);
-  }, [showLog]);
-
+  const [showProfile, setShowProfile] = useState(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [navbar, setNavbar] = useState(false);
   const [isHamOpen, setIsHamOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+
+  useEffect(() => {
+    const username = localStorage.getItem("LoggedUser");
+    if (username != null) setShowProfile(username);
+    console.log(showProfile);
+  }, [showProfile]);
 
   //to display items on clicking ham or hide
   function setHamBurger() {
@@ -79,9 +80,9 @@ function Nav() {
             </li>
             <li>
               <Link
-                to="/Universities1"
+                to="/Universities"
                 className={`font-[500] ${
-                  location.pathname === "/Universities1"
+                  location.pathname === "/Universities"
                     ? "border-b-2 border-blue-400"
                     : null
                 } hover:border-b-2 hover:border-blue-400`}
@@ -102,16 +103,23 @@ function Nav() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/login"
-                className={`font-[500] ${
-                  location.pathname === "/login"
-                    ? "border-b-2 border-blue-400"
-                    : null
-                }  hover:border-b-2 hover:border-blue-400 `}
-              >
-                Sign In
-              </Link>
+              {/* if user is logged IN show profile Icon otherwise show Sign In */}
+              {!showProfile ? (
+                <Link
+                  to="/login"
+                  className={`font-[500] ${
+                    location.pathname === "/login"
+                      ? "border-b-2 border-blue-400"
+                      : null
+                  }  hover:border-b-2 hover:border-blue-400 `}
+                >
+                  Sign In
+                </Link>
+              ) : (
+                <button className="hover:border-b-2 hover:border-blue-400">
+                  <User />
+                </button>
+              )}
             </li>
           </ul>
         </div>

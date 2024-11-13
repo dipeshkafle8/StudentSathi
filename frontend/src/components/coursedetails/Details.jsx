@@ -418,7 +418,7 @@ function Details() {
   let title = arrd[i].title;
   let des = arrd[i].description;
   let imgsrc = arrd[i].src;
-  let url = `../universities1/${title}`;
+  let url = `../Universities/${title}`;
   let url2 = `../Carriers/${title}`;
   let factors = arrd[i].fields.map(value => {
     return <li key={value}>{value}</li>;

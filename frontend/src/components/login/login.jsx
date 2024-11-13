@@ -1,44 +1,32 @@
 import "./login.css";
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+
 import axios from "axios";
-import { useLocation, useParams } from "react-router-dom";
 
 function Login() {
-  const username = localStorage.getItem("username");
   const Navigate = useNavigate();
-  const { university } = useParams();
-  console.log(university);
-
-  useEffect(() => {
-    if (username) {
-      if (university) {
-        Navigate(`/Universities/${university}`);
-      } else {
-        Navigate("/Universities");
-      }
-      window.location.reload();
-    }
-  }, []);
-
   const location = useLocation();
-
+  const from = location.state?.from?.pathname || "/";
   const sendLoginDetailsToBackEnd = async data => {
     try {
-      let resp = await axios.post("http://localhost:5000/login", data);
-      resp = resp.data;
-      console.log(resp);
-           
+      let response = await axios.post("http://localhost:5000/user/login", data);
+      response = response.data;
+      console.log(response);
+      console.log("User data");
+
       //to access universities you need to logged in
-      if (resp.status) {
-        if (location.pathname === "/login") {
-          Navigate("/");
-        } else if (location.pathname === "/universites1") {
-          Navigate("/Universities");
-        } else if (location.pathname === "/universites1" && university) {
-          Navigate(`/universites/${university}`);
-        }
-        window.location.reload();
+      if (response.success) {
+        //for storinng response in localStorage
+        localStorage.setItem("token", response.jwtToken);
+        localStorage.setItem("LoggedUser", response.username);
+
+        Navigate(from, { replace: true });
+        /* 
+        Note:After a user logs in they are redirected back
+        to the original route after using replace:true the login page is 
+        replaced in history stack,preventing the user from navigating back 
+        to the login page using the browser's back button.
+        */
       } else {
         alert("Bad!! credential");
       }

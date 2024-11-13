@@ -30,14 +30,14 @@ async function handleSignUp(req, res) {
 async function handleLogin(req, res) {
   try {
     const userData = req.body;
-
+    console.log(userData);
     const user = await User.findOne({
       username: userData.username,
     });
 
     const errorMsg = "Authentication failed email or password is wrong";
     if (!user) {
-      return res.json(403).json({ message: errorMsg, success: false });
+      return res.status(401).json({ message: errorMsg, success: false });
     }
     //comparing password
     const isPassEqual = await bcrypt.compare(userData.password, user.password);
@@ -56,6 +56,7 @@ async function handleLogin(req, res) {
         expiresIn: "24h",
       }
     );
+    console.log(jwtToken);
 
     res.status(200).json({
       message: "Login success",

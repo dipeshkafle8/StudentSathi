@@ -15,7 +15,7 @@ function Ham({ isHome }) {
             <Link to="/Carriers">Carriers</Link>
           </li>
           <li>
-            <Link to="/Universities1">Universities</Link>
+            <Link to="/Universities">Universities</Link>
           </li>
           <li>
             <Link to="/Contact"> Contact</Link>

@@ -1,12 +1,16 @@
 import "./signup.css";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { handleError, handleSuccess } from "../../util";
+import { ToastContainer } from "react-toastify";
+
 function Signup() {
   const Navigate = useNavigate();
 
   //for sending request to backend
   async function sendDataToBackend(obj) {
     try {
-      let res = await fetch("http://localhost:5000/signup", {
+      let res = await fetch("http://localhost:5000/user/signup", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
@@ -14,13 +18,17 @@ function Signup() {
         body: JSON.stringify(obj)
       });
       res = await res.json();
-      if (res.status) {
+
+      if (res.success) {
+        handleSuccess(res.msg);
+        alert("User created successfully");
         Navigate("/login");
       } else {
-        alert("Unable to create");
+        alert("Error in creating user");
+        handleError(res.msg);
       }
     } catch (err) {
-      alert("Unable to create User");
+      handleError(err);
     }
   }
 
@@ -71,6 +79,7 @@ function Signup() {
             </button>
           </div>
         </form>
+        <ToastContainer />
       </div>
     </>
   );
