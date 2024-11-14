@@ -1,4 +1,6 @@
 import bgImage from "./back.jpg";
+import Testimonials from "./Testimonial/Testimonials";
+import Footer from "./Footer/Footer";
 function Front() {
   return (
     <>
@@ -22,20 +24,10 @@ function Front() {
           </a>
         </div>
       </div>
-      <section className="footer">
-        <h2>About Us</h2>
-        <p>
-          {" "}
-          Explore our rich history, values, and dedication to cultivating a
-          community where innovation, diversity, and academic excellence thrive.
-        </p>
-        <div className="icons">
-          <i className="fa fa-facebook"></i>
-          <i className="fa fa-twitter"></i>
-          <i className="fa fa-instagram"></i>
-          <i className="fa fa-linkedin"></i>
-        </div>
-      </section>
+
+      <Testimonials />
+
+      <Footer />
     </>
   );
 }

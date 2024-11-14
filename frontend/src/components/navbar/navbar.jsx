@@ -24,7 +24,7 @@ function Nav() {
 
   //to change background after scrolling
   const changeBackground = () => {
-    if (window.scrollY >= 200 && isHomePage) {
+    if (window.scrollY >= 150 && isHomePage) {
       setNavbar(true);
     } else {
       setNavbar(false);
@@ -116,7 +116,10 @@ function Nav() {
                   Sign In
                 </Link>
               ) : (
-                <button className="hover:border-b-2 hover:border-blue-400">
+                <button
+                  className="hover:border-b-2 hover:border-blue-400"
+                  onClick={{ setIsProfileOpen }}
+                >
                   <User />
                 </button>
               )}

@@ -8,7 +8,7 @@ import Details from "./components/coursedetails/Details.jsx";
 import HandleUniversity from "./components/universities/university.jsx";
 import Contact from "./components/Contact/contact.jsx";
 import Carriers from "./components/Carriers/Carriers.jsx";
-import Footer from "./components/Footer/Footer.jsx";
+
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 import "./App.css";
@@ -44,7 +44,6 @@ function App() {
           <Route path="/Carriers" element={<Carriers />} />
           <Route path="/Carriers/:courseCarriers" element={<Carriers />} />
         </Routes>
-        <Footer />
       </BrowserRouter>
     </>
   );
